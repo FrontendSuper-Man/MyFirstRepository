@@ -12,7 +12,7 @@ console.log(screenPrice);
 const adaptive = confirm("Нужен ли адаптив на сайте?");
 console.log(adaptive);
 if (!adaptive) {
-	console.log("Адаптив не нужен, продолжаем...");
+	console.log("Адаптив не нужен, продолжаем...")
 }
 
 const service1 = prompt("Какой дополнительный тип услуги нужен?");
