@@ -9,8 +9,6 @@ let servicePercentPrice
 let service1
 let service2
 
-
-
 const asking = function () {
 	title = prompt("Как называется ваш проект?", "Проект");
 	screens = prompt("Какие типы экранов нужно разработать?", "Простые");
@@ -23,37 +21,43 @@ const asking = function () {
 	adaptive = confirm("Нужен ли адаптив на сайте?",);
 }
 
+
 const isNumber = function (num) {
 	return !isNaN(parseFloat(num)) && isFinite(num);
 }
 
 const getAllServicePrices = function () {
 	let sum = 0;
-	let servicePrice
-	
-	service = prompt('Какой дополнительный тип услуг нужен?');
-	if (service === null || service === false || service === undefined) {
-		servicePrice = prompt("Сколько это будет стоить?", '2000');
-		sum += parseFloat(servicePrice);
-	}
 
-	service = prompt('Какой дополнительный тип услуг нужен?');
-	if (service === null || service === false || service === undefined) {
-		servicePrice = prompt("Сколько это будет стоить?", '2000');
-		sum += parseFloat(servicePrice);
-	}
+	for (let i = 0; i < 2; i++) {
+		let service = prompt('Какой дополнительный тип услуг нужен?');
 
-	while (true) {
-		if (isNumber(servicePrice)) {
-			break; // Выходим из цикла, если введено корректное число
+		// Проверка на отмену
+		if (service === null) {
+			continue; // Пропустить этот цикл и перейти к следующей итерации
+		}
+
+		let servicePrice = 0;
+		while (true) {
+			servicePrice = prompt("Сколько это будет стоить?", '2000');
+
+			// Проверка на отмену или корректность введенного числа
+			if (servicePrice === null) {
+				break; // Пропуск вопроса о стоимости услуги
+			}
+			if (isNumber(servicePrice)) {
+				sum += parseFloat(servicePrice);
+				break; // Выйти из цикла, если введено корректное число
+			}
 		}
 	}
 	return sum;
 }
 
-
 let totalServicePrices = getAllServicePrices();
 console.log(totalServicePrices);
+
+
 
 
 const getRollBackMessage = function (price) {
