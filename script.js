@@ -3,10 +3,11 @@ const screens = prompt("Какие типы экранов нужно разра
 const screenPrice = +prompt("Сколько будет стоить данная работа?", "20000");
 const adaptive = confirm("Нужен ли адаптив на сайте?", "Нет");
 const service1 = prompt('Какой дополнительный тип услуг нужен?', "нет");
-const service2 = prompt('Какой дополнительный тип услуг нужен?', "нет");
 const servicePrice1 = +prompt("Сколько это будет стоить?", "2000");
+const service2 = prompt('Какой дополнительный тип услуг нужен?', "нет");
 const servicePrice2 = +prompt("Сколько это будет стоить?", "2000");
 const rollback = 10;
+
 
 const getRollBackMessage = function (price) {
 	if (price >= 30000) {
@@ -60,9 +61,9 @@ const servicePercentPrice = getServicePercentPrices(fullPrice, amountKickback);
 
 showTypeOf(getTitleLet);
 showTypeOf(screenPrice);
-// showTypeOf(adaptive);
-// showTypeOf(service1);
-// showTypeOf(service2);
+showTypeOf(adaptive);
+showTypeOf(service1);
+showTypeOf(service2);
 showTypeOf(servicePrice1);
 showTypeOf(servicePrice2);
 showTypeOf(rollback);
