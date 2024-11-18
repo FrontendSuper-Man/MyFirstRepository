@@ -6,8 +6,8 @@ let rollback = 10
 let allServicePrices
 let fullPrice
 let servicePercentPrice
-let service1
-let service2
+// let service1
+// let service2
 
 const asking = function () {
 	title = prompt("Как называется ваш проект?", "Проект");
