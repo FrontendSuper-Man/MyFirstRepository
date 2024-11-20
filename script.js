@@ -23,23 +23,53 @@ const appData = {
 	},
 
 	asking: function () {
-		this.title = prompt("Как называется ваш проект?", "Проект");
+		do {
+			this.title = prompt("Как называется ваш проект?", "Проект");
+			if (this.isNumber(this.title)) {
+				alert("Название проекта не может быть числом!");
+			}
+		} while (this.isNumber(this.title));
 
 		for (let i = 0; i < 2; i++) {
-			let name = prompt("Какие типы экранов нужно разработать?", "Простые");
+			let name;
 			let price = 0;
+
 			do {
+				name = prompt("Какие типы экранов нужно разработать?", "Простые");
+				if (this.isNumber(name)) {
+					alert("Тип экрана не может быть числом!");
+				}
+			} while (this.isNumber(name));
+
+			do {
+				if (!this.isNumber(price)) {
+					alert("Стоимость нужно ввести в числах");
+				}
 				price = +prompt("Сколько будет стоить данная работа?", "20000");
 			} while (!this.isNumber(price));
+
 			this.screens.push({ id: i, name, price, })
 		}
 
 		for (let i = 0; i < 2; i++) {
-			let name = prompt("Какой дополнительный тип услуг нужен?");
+			let name;
 			let price = 0;
+
 			do {
+				name = prompt("Какой дополнительный тип услуг нужен?");
+				if (this.isNumber(name)) {
+					alert("Услуг не может быть числом!");
+				}
+			} while (this.isNumber(name));
+
+			do {
+				if (!this.isNumber(price)) {
+					alert("Стоимость нужно ввести в числах");
+				}
 				price = +prompt("Сколько это будет стоить?", 2000);
 			} while (!this.isNumber(price));
+
+
 			this.services[name] = +price
 		}
 
