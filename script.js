@@ -23,53 +23,17 @@ const appData = {
 	},
 
 	asking: function () {
-		do {
-			this.title = prompt("Как называется ваш проект?", "Проект");
-			if (this.isNumber(this.title)) {
-				alert("Название проекта не может быть числом!");
-			}
-		} while (this.isNumber(this.title));
+		this.title = this.examArr("1 Как называется ваш проект?", "Название проекта не может быть числом!")
 
 		for (let i = 0; i < 2; i++) {
-			let name;
-			let price = 0;
-
-			do {
-				name = prompt("Какие типы экранов нужно разработать?", "Простые");
-				if (this.isNumber(name)) {
-					alert("Тип экрана не может быть числом!");
-				}
-			} while (this.isNumber(name));
-
-			do {
-				if (!this.isNumber(price)) {
-					alert("Стоимость нужно ввести в числах");
-				}
-				price = +prompt("Сколько будет стоить данная работа?", "20000");
-			} while (!this.isNumber(price));
-
+			let name = this.examArr("2 Какие типы экранов нужно разработать?", "Тип экрана не может быть числом!")
+			let price = this.examNum("3 Сколько будет стоить данная работа?", "Стоимость нужно ввести в числах");
 			this.screens.push({ id: i, name, price, })
 		}
 
 		for (let i = 0; i < 2; i++) {
-			let name;
-			let price = 0;
-
-			do {
-				name = prompt("Какой дополнительный тип услуг нужен?");
-				if (this.isNumber(name)) {
-					alert("Услуг не может быть числом!");
-				}
-			} while (this.isNumber(name));
-
-			do {
-				if (!this.isNumber(price)) {
-					alert("Стоимость нужно ввести в числах");
-				}
-				price = +prompt("Сколько это будет стоить?", 2000);
-			} while (!this.isNumber(price));
-
-
+			let name = this.examArr("4 Какой дополнительный тип услуг нужен?", "Услуга не может быть числом!")
+			let price = this.examNum("5 Сколько это будет стоить?", "Стоимость нужно ввести в числах");
 			this.services[name] = +price
 		}
 
@@ -119,7 +83,27 @@ const appData = {
 			}
 		}
 	},
-};
 
+	examNum: function (message, errorMessage) {
+		let input;
+		do {
+			input = +prompt(message);
+			if (!this.isNumber(input)) {
+				alert(errorMessage);
+			}
+		} while (!this.isNumber(input));
+		return input;
+	},
+
+	examArr: function (message, errorMessage) {
+		let input;
+		do {
+			input = prompt(message);
+			if (this.isNumber(input)) {
+				alert(errorMessage);
+			}
+		} while (this.isNumber(input));
+		return input;
+	},
+};
 appData.start();
-console.log(appData.screens);
