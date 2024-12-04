@@ -1,7 +1,8 @@
 const h1Collection = document.getElementsByTagName('h1');
 const firstH1 = h1Collection[0];
 
-const btns = document.getElementsByClassName('handler_btn')
+const btnsDiv = document.querySelector('.main-total > .main-total__buttons')
+const btns = btnsDiv.getElementsByClassName('handler_btn')
 
 const plus = document.querySelector('.screen-btn')
 const other1 = document.querySelectorAll(".other-items.percent");
@@ -15,16 +16,17 @@ const inputs = document.getElementsByClassName('total-input')
 
 let screens = document.querySelectorAll(".screen")
 
-console.log(h1Collection);
-console.log(firstH1);
 console.log(btns);
-console.log(plus);
-console.log(other1);
-console.log(other2);
-console.log(typeInput);
-console.log(span);
-console.log(inputs);
-console.log(screens);
+
+// console.log(h1Collection);
+// console.log(firstH1);
+// console.log(plus);
+// console.log(other1);
+// console.log(other2);
+// console.log(typeInput);
+// console.log(span);
+// console.log(inputs);
+// console.log(screens);
 
 
 
