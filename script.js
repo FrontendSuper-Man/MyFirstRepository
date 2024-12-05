@@ -17,10 +17,6 @@ const totalCountRollback = document.getElementsByClassName('total-input')[4];
 
 let screens = document.querySelectorAll('.screen');
 
-
-
-
-
 const appData = {
 	title: '',
 	screens: [],
@@ -31,20 +27,24 @@ const appData = {
 	fullPrice: 0,
 	servicePercentPrice: 0,
 	services: {},
-
-	start: function () {
-		this.asking();
-		this.addPrices()
-		this.getFullPrice();
-		this.getServicePercentPrices();
-		this.getTitle();
-		this.logger();
+	init: function () {
+		this.addTitle()
+		this.start()
 	},
-
+	addTitle: function () {
+		console.log(title);
+	},
+	start: function () {
+		// this.asking();
+		// this.addPrices()
+		// this.getFullPrice();
+		// this.getServicePercentPrices();
+		// this.getTitle();
+		// this.logger();
+	},
 	isNumber: function (num) {
 		return !isNaN(parseFloat(num)) && isFinite(num);
 	},
-
 	asking: function () {
 		this.title = this.examArr("1 Как называется ваш проект?", "Название проекта не может быть числом!")
 
@@ -63,40 +63,26 @@ const appData = {
 		this.screenPrice = parseFloat(this.screenPrice);
 		this.adaptive = confirm("Нужен ли адаптив на сайте?");
 	},
-
-	addPrices: function () {
-		for (const screen of appData.screens) {
-			appData.screenPrice += screen.price
-		}
-		for (const key in this.services) {
-			this.allServicePrices += this.services[key]
-		}
-	},
-
 	getFullPrice: function () {
-		this.fullPrice = this.screenPrice + this.allServicePrices;
+		appData.fullPrice = +appData.screenPrice + appData.allServicePrices
 	},
-
+	getServicePercentPrice: function () {
+		appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100))
+	},
 	getTitle: function () {
-		this.title = this.title.trim()[0].toUpperCase() + this.title.trim().substring(1).toLowerCase();
+		appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase()
 	},
-
-	getServicePercentPrices: function () {
-		this.servicePercentPrice = this.fullPrice - (this.fullPrice * (this.rollback / 100));
-	},
-
-	getRollBackMessage: function (price) {
+	getRollbackMessage: function (price) {
 		if (price >= 30000) {
-			return "Даём скидку в 10%";
+			return "Даём скидку в 10%"
 		} else if (price >= 15000 && price < 30000) {
-			return "Даём скидку в 5%";
+			return "Даём скидку в 5%"
 		} else if (price >= 0 && price < 15000) {
-			return "Скидка не предусмотрена";
+			return "Скидка не предусмотрена"
 		} else {
-			return "Что-то пошло не так";
+			return "Что-то пошло не так"
 		}
 	},
-
 	logger: function () {
 		for (const i in this) {
 			if (typeof this[i] !== "function") {
@@ -106,27 +92,27 @@ const appData = {
 			}
 		}
 	},
-
-	examNum: function (message, errorMessage) {
-		let input;
-		do {
-			input = +prompt(message);
-			if (!this.isNumber(input)) {
-				alert(errorMessage);
-			}
-		} while (!this.isNumber(input));
-		return input;
-	},
-
-	examArr: function (message, errorMessage) {
-		let input;
-		do {
-			input = prompt(message);
-			if (this.isNumber(input)) {
-				alert(errorMessage);
-			}
-		} while (this.isNumber(input));
-		return input;
-	},
 };
-appData.start();
+appData.init();
+
+
+
+
+
+
+
+// console.log(title);
+// console.log(buttonPlus);
+// console.log(otherItemsPercent);
+// console.log(otherItemsNumber);
+// console.log(inputRange);
+// console.log(inputRangeValue);
+// console.log(startBtn);
+// console.log(resetBtn);
+// console.log(total);
+// console.log(totalCount);
+// console.log(totalCountOther);
+// console.log(fullTotalCount);
+// console.log(totalCountRollback);
+// console.log(screens);
+
