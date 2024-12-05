@@ -17,6 +17,8 @@ const totalCountRollback = document.getElementsByClassName('total-input')[4];
 
 let screens = document.querySelectorAll('.screen');
 
+
+
 const appData = {
 	title: '',
 	screens: [],
@@ -26,13 +28,12 @@ const appData = {
 	allServicePrices: 0,
 	fullPrice: 0,
 	servicePercentPrice: 0,
-	services: {},
+	servicesPercent: {},
+	servicesNumber: {},
 	init: function () {
 		this.addTitle()
-		this.start()
-	},
-	addTitle: function () {
-		console.log(title);
+		startBtn.addEventListener('click', appData.start)
+		buttonPlus.addEventListener("click", this.addScreenBlock)
 	},
 	start: function () {
 		// this.asking();
@@ -41,27 +42,54 @@ const appData = {
 		// this.getServicePercentPrices();
 		// this.getTitle();
 		// this.logger();
+		appData.addScreens()
+		appData.addServices()
 	},
-	isNumber: function (num) {
-		return !isNaN(parseFloat(num)) && isFinite(num);
+	addServices: function () {
+		otherItemsPercent.forEach((item) => {
+			const check = item.querySelector('input[type=checkbox]')
+			const label = item.querySelector('label')
+			const input = item.querySelector('input[type=text]')
+			console.log(check);
+			console.log(label);
+			console.log(input);
+			this.servicePercent[label.textContent] = input.value
+		})
+		// otherItemsNumber
+		console.log(appData);
+		
+	},
+
+	addScreenBlock: function () {
+		const cloneScreen = screens[0].cloneNode(true)
+		screens[screens.length - 1].after(cloneScreen)
+	},
+	addScreens: function () {
+		screens = document.querySelectorAll('.screen');
+		screens.forEach((screen, index) => {
+			const select = screen.querySelector('select')
+			const input = screen.querySelector('input')
+			const selectName = select.options[select.selectedIndex].textContent
+			this.screens.push({
+				id: index,
+				name: selectName,
+				price: +select.value * +input.value
+			})
+		})
+		console.log(this.screens);
+	},
+	addTitle: function () {
+		document.title = title.textContent
 	},
 	asking: function () {
-		this.title = this.examArr("1 Как называется ваш проект?", "Название проекта не может быть числом!")
-
 		for (let i = 0; i < 2; i++) {
-			let name = this.examArr("2 Какие типы экранов нужно разработать?", "Тип экрана не может быть числом!")
-			let price = this.examNum("3 Сколько будет стоить данная работа?", "Стоимость нужно ввести в числах");
-			this.screens.push({ id: i, name, price, })
+			let name = prompt("Какой дополнительный тип услуги нужен?");
+			let price = 0;
+			do {
+				price = prompt("Сколько это будет стоить?");
+			} while (!appData.isNumber(price))
+			appData.services[name] = +price;
 		}
-
-		for (let i = 0; i < 2; i++) {
-			let name = this.examArr("4 Какой дополнительный тип услуг нужен?", "Услуга не может быть числом!")
-			let price = this.examNum("5 Сколько это будет стоить?", "Стоимость нужно ввести в числах");
-			this.services[name] = +price
-		}
-
-		this.screenPrice = parseFloat(this.screenPrice);
-		this.adaptive = confirm("Нужен ли адаптив на сайте?");
 	},
 	getFullPrice: function () {
 		appData.fullPrice = +appData.screenPrice + appData.allServicePrices
@@ -115,4 +143,3 @@ appData.init();
 // console.log(fullTotalCount);
 // console.log(totalCountRollback);
 // console.log(screens);
-
