@@ -17,8 +17,6 @@ const totalCountRollback = document.getElementsByClassName('total-input')[4];
 
 let screens = document.querySelectorAll('.screen');
 
-
-
 const appData = {
 	title: '',
 	screens: [],
@@ -33,18 +31,18 @@ const appData = {
 	servicesNumber: {},
 	init: function () {
 		appData.addTitle()
+
 		startBtn.addEventListener('click', appData.start)
 		buttonPlus.addEventListener("click", appData.addScreenBlock)
 	},
 	start: function () {
 		appData.addScreens()
 		appData.addServices()
-		// appData.addPrices()
-		// appData.getFullPrice();
+		appData.addPrices()
 
 		// appData.getServicePercentPrices();
 		// appData.logger();
-		console.log(appData);
+		appData.showResult()
 	},
 	addServices: function () {
 		otherItemsPercent.forEach((item) => {
@@ -68,6 +66,13 @@ const appData = {
 		const cloneScreen = screens[0].cloneNode(true)
 		screens[screens.length - 1].after(cloneScreen)
 	},
+	showResult: function () {
+		alert('showResult')
+		total.value = appData.screenPrice
+		totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber
+		fullTotalCount.value = appData.fullPrice
+		// totalCount.value = appData.screens
+	},
 	addScreens: function () {
 		screens = document.querySelectorAll('.screen');
 		screens.forEach((screen, index) => {
@@ -90,18 +95,19 @@ const appData = {
 			appData.screenPrice += +screen.price
 		}
 
-		for (let key of appData.servicesNumber) {
-			appData.servicePricesNumber += appData.servicesNumber[key]
+		for (let key in appData.servicesNumber) {
+			appData.servicePricesNumber += +appData.servicesNumber[key]
 		}
-	},
-	getFullPrice: function () {
-		appData.fullPrice = +appData.screenPrice + appData.allServicePrices
+
+		for (let key in appData.servicesPercent) {
+			appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100)
+		}
+
+		appData.fullPrice = +appData.screenPrice + appData.servicePricesPercent + appData.servicePricesNumber
+
 	},
 	getServicePercentPrice: function () {
 		appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100))
-	},
-	getTitle: function () {
-		appData.title = appData.title.trim()[0].toUpperCase() + appData.title.trim().substr(1).toLowerCase()
 	},
 	getRollbackMessage: function (price) {
 		if (price >= 30000) {
@@ -125,9 +131,6 @@ const appData = {
 	},
 };
 appData.init();
-
-
-
 
 
 
