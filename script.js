@@ -44,7 +44,7 @@ const appData = {
 			});
 			isValid ? appData.start() : alert("Заполните все поля корректно!");
 		});
-
+		inputRange.addEventListener('input', this.inputRangeFunc)
 		buttonPlus.addEventListener("click", appData.addScreenBlock)
 	},
 
@@ -73,6 +73,11 @@ const appData = {
 		// appData.getServicePercentPrices();
 		// appData.logger();
 		appData.showResult()
+	},
+	
+	inputRangeFunc: function () {
+		inputRangeValue.textContent = inputRange.value
+		this.rollback = inputRangeValue.textContent
 	},
 
 	addServices: function () {
