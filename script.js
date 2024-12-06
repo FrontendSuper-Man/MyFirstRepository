@@ -29,12 +29,42 @@ const appData = {
 	servicePercentPrice: 0,
 	servicesPercent: {},
 	servicesNumber: {},
+
 	init: function () {
 		appData.addTitle()
 
-		startBtn.addEventListener('click', appData.start)
+		startBtn.addEventListener('click', function () {
+			let isValid = true;
+			screens.forEach((screen) => {
+				const select = screen.querySelector('select');
+				const input = screen.querySelector('input');
+				if (select.options.selectedIndex === 0 || !input.value) {
+					isValid = false;
+				}
+			});
+			isValid ? appData.start() : alert("Заполните все поля корректно!");
+		});
+
 		buttonPlus.addEventListener("click", appData.addScreenBlock)
 	},
+
+	addScreens: function () {
+		screens = document.querySelectorAll('.screen');
+		screens.forEach((screen, index) => {
+			const select = screen.querySelector('select')
+			const input = screen.querySelector('input')
+			if (select.options.selectedIndex === 0 || input === '') {
+				startBtn.removeEventListener('click', appData.start)
+			}
+			const selectName = select.options[select.selectedIndex].textContent
+			appData.screens.push({
+				id: index,
+				name: selectName,
+				price: +select.value * +input.value
+			})
+		})
+	},
+
 	start: function () {
 		appData.addScreens()
 		appData.addServices()
@@ -44,6 +74,7 @@ const appData = {
 		// appData.logger();
 		appData.showResult()
 	},
+
 	addServices: function () {
 		otherItemsPercent.forEach((item) => {
 			const check = item.querySelector('input[type=checkbox]')
@@ -62,10 +93,12 @@ const appData = {
 			}
 		});
 	},
+
 	addScreenBlock: function () {
 		const cloneScreen = screens[0].cloneNode(true)
 		screens[screens.length - 1].after(cloneScreen)
 	},
+
 	showResult: function () {
 		alert('showResult')
 		total.value = appData.screenPrice
@@ -73,23 +106,11 @@ const appData = {
 		fullTotalCount.value = appData.fullPrice
 		// totalCount.value = appData.screens
 	},
-	addScreens: function () {
-		screens = document.querySelectorAll('.screen');
-		screens.forEach((screen, index) => {
-			const select = screen.querySelector('select')
-			const input = screen.querySelector('input')
-			const selectName = select.options[select.selectedIndex].textContent
-			appData.screens.push({
-				id: index,
-				name: selectName,
-				price: +select.value * +input.value
-			})
-		})
-		console.log(appData.screens);
-	},
+
 	addTitle: function () {
 		document.title = title.textContent
 	},
+
 	addPrices: function () {
 		for (let screen of appData.screens) {
 			appData.screenPrice += +screen.price
@@ -106,9 +127,11 @@ const appData = {
 		appData.fullPrice = +appData.screenPrice + appData.servicePricesPercent + appData.servicePricesNumber
 
 	},
+
 	getServicePercentPrice: function () {
 		appData.servicePercentPrice = appData.fullPrice - (appData.fullPrice * (appData.rollback / 100))
 	},
+
 	getRollbackMessage: function (price) {
 		if (price >= 30000) {
 			return "Даём скидку в 10%"
@@ -120,6 +143,7 @@ const appData = {
 			return "Что-то пошло не так"
 		}
 	},
+
 	logger: function () {
 		for (const i in appData) {
 			if (typeof appData[i] !== "function") {
@@ -130,6 +154,7 @@ const appData = {
 		}
 	},
 };
+
 appData.init();
 
 
