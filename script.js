@@ -16,6 +16,9 @@ const fullTotalCount = document.getElementsByClassName('total-input')[3];
 const totalCountRollback = document.getElementsByClassName('total-input')[4];
 
 let screens = document.querySelectorAll('.screen');
+let screenInput = document.querySelector('.screen input');
+// console.log(screenInput.value);
+
 
 const appData = {
 	title: '',
@@ -54,7 +57,6 @@ const appData = {
 		appData.addServices()
 		appData.addPrices()
 		appData.showResult()
-		// appData.getServicePercentPrices();
 		// appData.logger();
 	},
 
@@ -99,7 +101,10 @@ const appData = {
 
 	addScreenBlock: function () {
 		const cloneScreen = screens[0].cloneNode(true)
-		screens[screens.length - 1].after(cloneScreen)
+		if (screenInput.value > 0) {
+			cloneScreen.querySelector('input').value = ''
+		}
+		buttonPlus.before(cloneScreen)
 	},
 
 	showResult: function () {
