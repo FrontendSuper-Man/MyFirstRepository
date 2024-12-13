@@ -7,17 +7,15 @@ function DomElement(selector, height, width, bg, fontSize) {
 
 	this.createElement = function () {
 		let element;
-		if (this.selector.startsWith('.')) {
+		if (this.selector.trim().startsWith('.')) {
 			element = document.createElement('div');
 			element.className = this.selector.slice(1);
-		} else if (this.selector.startsWith('#')) {
+		} else if (this.selector.trim().startsWith('#')) {
 			element = document.createElement('p');
 			element.id = this.selector.slice(1);
 		} else {
-			console.error('Некорректный селектор. Используйте точку или решетку.');
-			return;
+			alert('Некорректный селектор. Используйте точку или решетку.')
 		}
-
 		element.style.cssText = `
 		 height: ${this.height};
 		 width: ${this.width};
@@ -25,9 +23,15 @@ function DomElement(selector, height, width, bg, fontSize) {
 		 font-size: ${this.fontSize};
 	  `;
 		element.textContent = 'Это созданный элемент.';
-		document.body.appendChild(element);
+		document.body.before(element);
 	};
 }
 
-const newDomElement = new DomElement('.block', '100px', '200px', 'lightblue', '16px');
+const color = 'red'
+const width = '100px'
+const height = '200px'
+const fZ = '16px'
+const selector = ' .block'
+// const selector = '#block'
+const newDomElement = new DomElement(selector, height, width, color, fZ);
 newDomElement.createElement();
