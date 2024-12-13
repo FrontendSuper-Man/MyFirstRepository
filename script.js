@@ -46,15 +46,20 @@ const appData = {
 					isValid = false;
 				}
 			});
+
 			if (isValid) {
 				resetBtn.style.display = "block"
 				startBtn.style.display = "none"
 				screenInput.setAttribute('disabled', '')
 				this.start()
+				resetBool = false
 			} else {
 				alert("Заполните все поля корректно!")
 			}
-			resetBool = !resetBool
+			const inputsClone = document.querySelectorAll('.input-clone')
+			inputsClone.forEach(item => {
+				item.setAttribute('disabled', '')
+			})
 		});
 
 		resetBtn.addEventListener('click', this.reset)
@@ -78,7 +83,7 @@ const appData = {
 				item.remove()
 			}
 		})
-		resetBool = !resetBool
+		resetBool = true
 		total.value = 0
 		totalCountOther.value = 0
 		fullTotalCount.value = 0
@@ -146,6 +151,7 @@ const appData = {
 	addScreenBlock: function () {
 		const cloneScreen = screens[0].cloneNode(true);
 		const inputClone = cloneScreen.querySelector('input')
+		inputClone.classList.add('input-clone')
 		inputClone.value = '';
 		if (resetBool) {
 			buttonPlus.before(cloneScreen);
