@@ -48,45 +48,45 @@ class builder extends plants {
 }
 
 
-// // Добавление строки
-// submitButton.addEventListener('click', () => {
-// 	const name = nameInput.value.trim();
-// 	const surname = surnameInput.value.trim();
-// 	const isActive = checkboxInput.checked ? 'Да' : 'Нет';
-// 	const job = jobSelect.options[jobSelect.selectedIndex].text;
+// Добавление строки
+submitButton.addEventListener('click', () => {
+	const name = nameInput.value.trim();
+	const surname = surnameInput.value.trim();
+	const hasChildren = checkboxInput.checked ? 'Да' : 'Нет';
+	const job = jobSelect.options[jobSelect.selectedIndex].text;
 
-// 	if (name && surname) {
-// 		const row = document.createElement('tr');
-// 		row.innerHTML = `
-// 			 <td>${name}</td>
-// 			 <td>${surname}</td>
-// 			 <td>${isActive}</td>
-// 			 <td>${job}</td>
-// 			 <td><button class="delete-row">Удалить</button></td>
-// 		`;
-// 		tableBody.appendChild(row);
+	if (name && surname) {
+		const row = document.createElement('tr');
+		row.innerHTML = `
+			 <td>${name}</td>
+			 <td>${surname}</td>
+			 <td>${hasChildren}</td>
+			 <td>${job}</td>
+			 <td><button class="delete-row">Удалить</button></td>
+		`;
+		tableBody.appendChild(row);
 
-// 		// Очистка полей
-// 		nameInput.value = '';
-// 		surnameInput.value = '';
-// 		checkboxInput.checked = false;
-// 		jobSelect.selectedIndex = 0;
+		// Очистка полей
+		nameInput.value = '';
+		surnameInput.value = '';
+		checkboxInput.checked = false;
+		jobSelect.selectedIndex = 0;
 
-// 		// Добавляем обработчик на кнопку удаления строки
-// 		row.querySelector('.delete-row').addEventListener('click', () => {
-// 			row.remove();
-// 		});
-// 	} else {
-// 		alert('Пожалуйста, заполните Имя и Фамилию.');
-// 	}
-// });
+		// Добавляем обработчик на кнопку удаления строки
+		row.querySelector('.delete-row').addEventListener('click', () => {
+			row.remove();
+		});
+	} else {
+		alert('Пожалуйста, заполните Имя и Фамилию.');
+	}
+});
 
-// // Удаление последней строки
-// removeButton.addEventListener('click', () => {
-// 	const rows = tableBody.querySelectorAll('tr');
-// 	if (rows.length > 0) {
-// 		rows[rows.length - 1].remove();
-// 	} else {
-// 		alert('Таблица уже пуста.');
-// 	}
-// });
+// Удаление последней строки
+removeButton.addEventListener('click', () => {
+	const rows = tableBody.querySelectorAll('tr');
+	if (rows.length > 0) {
+		rows[rows.length - 1].remove();
+	} else {
+		alert('Таблица уже пуста.');
+	}
+});
