@@ -1,3 +1,3 @@
-import d from "./modules/script1";  // Исправленный импорт
+import d from "./modules/script1";
 d();
-console.log('ilefniaenfleankf111111111111111111111');
+console.log("ilefniaenfleankf111111111111111111111");
