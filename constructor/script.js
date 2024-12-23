@@ -1,92 +1,101 @@
-const nameInput = document.querySelector('.name');
-const surnameInput = document.querySelector('.surname');
-const inputRangeAge = document.getElementById('range');
-const checkboxInput = document.getElementById('checkbox');
-const jobSelect = document.getElementById('select');
-const submitButton = document.getElementById('submit');
-const removeButton = document.getElementById('remove');
-const tableBody = document.querySelector('#data-table tbody');
 
-const user = {
-	name: nameInput,
-	surname: surnameInput,
-	age: inputRangeAge,
-	post: null,
-	organization: null,
-	children: checkboxInput,
-	hiringDate: null,
-}
-
-const args = { name, surname, age, post, organization, children, hiringDate }
-class worker {
-	constructor() { }
-}
-
-class driver extends plants {
-	constructor(args) {
-		// super()
-		args.name = 'Nikita'
-		args.surname = 'Alexov'
-		args.age = 24
-		args.post = "Дальнобойщики"
-		args.organization = "DHL"
-		args.children = true
-		args.hiringDate = '21.03.2020'
+class Worker {
+	constructor(firstName, lastName, age, position) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.position = position;
 	}
-}
-class builder extends plants {
-	constructor(args) {
-		// super()
-		args.name = 'Alex'
-		args.surname = 'Alexov'
-		args.age = 29
-		args.post = "Директор"
-		args.organization = "Progress"
-		args.children = true
-		args.hiringDate = '21.03.2010'
+
+	getFullName() {
+		return `${this.firstName} ${this.lastName}`;
 	}
 }
 
+class Mechanic extends Worker {
+	constructor(firstName, lastName, age, position, rank, hasChildren) {
+		super(firstName, lastName, age, position);
+		this.rank = rank;
+		this.hasChildren = hasChildren;
+	}
 
-// Добавление строки
-submitButton.addEventListener('click', () => {
-	const name = nameInput.value.trim();
-	const surname = surnameInput.value.trim();
-	const hasChildren = checkboxInput.checked ? 'Да' : 'Нет';
-	const job = jobSelect.options[jobSelect.selectedIndex].text;
+	getRank() {
+		return this.rank;
+	}
+}
 
-	if (name && surname) {
-		const row = document.createElement('tr');
+class Driver extends Worker {
+	constructor(firstName, lastName, age, position, licenseCategory, hireDate) {
+		super(firstName, lastName, age, position);
+		this.licenseCategory = licenseCategory;
+		this.hireDate = hireDate;
+	}
+
+	getLicenseCategory() {
+		return this.licenseCategory;
+	}
+
+	getHireDate() {
+		return this.hireDate;
+	}
+}
+
+const workers = JSON.parse(localStorage.getItem('workers')) || [];
+
+function renderTable() {
+	const tableBody = document.querySelector("#workers-table tbody");
+	tableBody.innerHTML = "";
+
+	workers.forEach((worker, index) => {
+		const row = document.createElement("tr");
 		row.innerHTML = `
-			 <td>${name}</td>
-			 <td>${surname}</td>
-			 <td>${hasChildren}</td>
-			 <td>${job}</td>
-			 <td><button class="delete-row">Удалить</button></td>
-		`;
+		 <td>${worker.firstName}</td>
+		 <td>${worker.lastName}</td>
+		 <td>${worker.age}</td>
+		 <td>${worker.position}</td>
+		 <td>${worker.rank || worker.licenseCategory || "N/A"}</td>
+		 <td>${worker.hasChildren !== undefined ? worker.hasChildren : worker.hireDate || "N/A"}</td>
+		 <td><button class="delete-btn" onclick="deleteWorker(${index})">Удалить</button></td>
+	  `;
 		tableBody.appendChild(row);
+	});
+}
 
-		// Очистка полей
-		nameInput.value = '';
-		surnameInput.value = '';
-		checkboxInput.checked = false;
-		jobSelect.selectedIndex = 0;
+function saveWorker(event) {
+	event.preventDefault();
 
-		// Добавляем обработчик на кнопку удаления строки
-		row.querySelector('.delete-row').addEventListener('click', () => {
-			row.remove();
-		});
-	} else {
-		alert('Пожалуйста, заполните Имя и Фамилию.');
+	const form = event.target;
+	const firstName = form.firstName.value;
+	const lastName = form.lastName.value;
+	const age = form.age.value;
+	const position = form.position.value;
+	const type = form.type.value;
+	const additional1 = form.additional1.value;
+	const additional2 = form.additional2.value;
+
+	let newWorker;
+
+	if (type === "Mechanic") {
+		newWorker = new Mechanic(firstName, lastName, age, position, additional1, additional2 === "true");
+	} else if (type === "Driver") {
+		newWorker = new Driver(firstName, lastName, age, position, additional1, additional2);
 	}
-});
 
-// Удаление последней строки
-removeButton.addEventListener('click', () => {
-	const rows = tableBody.querySelectorAll('tr');
-	if (rows.length > 0) {
-		rows[rows.length - 1].remove();
-	} else {
-		alert('Таблица уже пуста.');
-	}
+	workers.push(newWorker);
+	localStorage.setItem("workers", JSON.stringify(workers));
+	renderTable();
+	form.reset();
+}
+
+function deleteWorker(index) {
+	workers.splice(index, 1);
+	localStorage.setItem("workers", JSON.stringify(workers));
+	renderTable();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+	renderTable();
+
+	const form = document.querySelector("#worker-form");
+	form.addEventListener("submit", saveWorker);
 });
