@@ -1,3 +1,4 @@
-import d from "./modules/script1";
-d();
-console.log("ilefniaenfleankf111111111111111111111");
+import one from "./modules/one";
+import two from "./modules/two";
+one();
+two();
